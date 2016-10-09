@@ -1,0 +1,49 @@
+    <div class="all">
+    <div class="container chat col-md-10">
+      <div class="div-chat">
+      <ul id="messages"></ul>
+        <form action="" class="form">
+          <input id="m" class="input" autocomplete="off" required="true">
+          <button class="button">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="row col-md-2 div-user">
+      <ul class="list-group users">
+      </ul>
+    </div>
+    
+    </div>
+
+    <div class="container login-user">
+      <form action="" class="user">
+        <input class="input" id="user" placeholder="Nombre usuario">
+        <button class="button">Submit</button>
+      </form>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript">
+    var socket = io();
+    $(".all").hide()
+    $(".user").submit(function(){
+      socket.emit("user name", $("#user").val());
+      $(".user").hide(10)
+      $(".all").show(20)
+      return false
+    })
+    $('.form').submit(function(){
+        socket.emit('chat message', $('#m').val(),$("#user").val()) ;
+        $('#m').val('');
+        return false;
+    });
+    socket.on("user name", function(usr){
+      $(".users").append($('<li class="list-group-item">').text(usr));
+
+
+    })   
+    socket.on('chat message', function(msg, usr){
+          $('#messages').append($('<li>').text(usr+": "+msg));    
+    });
+    </script>
