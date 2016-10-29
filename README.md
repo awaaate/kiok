@@ -1,2 +1,2 @@
 "# kio" 
-"# kiok" 
+'aplicación de chat senzilla'
